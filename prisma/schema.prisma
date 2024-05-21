@@ -42,9 +42,11 @@ model BloodRequest {
 
   firstName    String
   lastName     String
+  email        String
   phoneNumber  String
-  dateOfBirth  DateTime
   location     String
+  donationDate String
+  donationTime String
   profilePhoto String?
   bloodType    BloodType
   status       RequestStatus @default(PENDING)
