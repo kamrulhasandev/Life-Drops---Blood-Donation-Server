@@ -6,3 +6,56 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id             String     @id @default(uuid())
+  username       String     @unique
+  email          String     @unique
+  password       String
+  canDonateBlood Boolean    @default(false)
+  bloodType      BloodType?
+  role           UserRole   @default(USER)
+  status         UserStatus @default(ACTIVE)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  UserProfile UserProfile?
+}
+
+model UserProfile {
+  id               String    @id @default(uuid())
+  userId           String    @unique
+  user             User      @relation(fields: [userId], references: [id])
+  profilePhoto     String?
+  location         String?
+  firstName        String?
+  lastName         String?
+  phoneNumber      String?
+  dateOfBirth      DateTime?
+  lastDonationDate DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum BloodType {
+  A_POS
+  A_NEG
+  B_POS
+  B_NEG
+  AB_POS
+  AB_NEG
+  O_POS
+  O_NEG
+}
+
+enum UserStatus {
+  ACTIVE
+  DEACTIVE
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
