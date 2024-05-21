@@ -9,11 +9,11 @@ datasource db {
 
 model User {
   id             String     @id @default(uuid())
-  username       String     @unique
+  userName       String     @unique
   email          String     @unique
   password       String
   canDonateBlood Boolean    @default(false)
-  bloodType      BloodType?
+  bloodType      BloodType
   role           UserRole   @default(USER)
   status         UserStatus @default(ACTIVE)
 
