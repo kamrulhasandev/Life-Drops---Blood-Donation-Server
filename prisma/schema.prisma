@@ -18,7 +18,7 @@ model User {
   dateOfBirth      DateTime
   location         String
   profilePhoto     String?
-  lastDonationDate String?
+  lastDonationDate DateTime?
   canDonateBlood   Boolean    @default(false)
   bloodType        BloodType
   role             UserRole   @default(USER)
@@ -26,6 +26,33 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  donor     BloodRequest[] @relation("donor")
+  requester BloodRequest[] @relation("requester")
+
+  @@map("users")
+}
+
+model BloodRequest {
+  id          String @id @default(uuid())
+  donorId     String
+  requesterId String
+  donor       User   @relation("donor", fields: [donorId], references: [id])
+  requester   User   @relation("requester", fields: [requesterId], references: [id])
+
+  firstName    String
+  lastName     String
+  phoneNumber  String
+  dateOfBirth  DateTime
+  location     String
+  profilePhoto String?
+  bloodType    BloodType
+  status       RequestStatus @default(PENDING)
+  hospitalName String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("bloodRequests")
 }
 
 enum BloodType {
@@ -48,4 +75,10 @@ enum UserRole {
   USER
   ADMIN
   SUPER_ADMIN
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
