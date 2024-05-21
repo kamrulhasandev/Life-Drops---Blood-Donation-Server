@@ -1,5 +1,8 @@
 import z from "zod";
 
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/;
+
 const createUserValidation = z.object({
   body: z.object({
     userName: z.string({
@@ -15,18 +18,30 @@ const createUserValidation = z.object({
       }),
     password: z
       .string()
-      .min(6, {
-        message: "Password must be at least 6 characters long.",
+      .min(8, {
+        message: "Password must be at least 8 characters long.",
       })
-      .regex(/[a-z]/, {
-        message: "Password must contain at least one lowercase letter.",
-      })
-      .regex(/[A-Z]/, {
-        message: "Password must contain at least one uppercase letter.",
-      })
-      .regex(/[0-9]/, {
-        message: "Password must contain at least one number.",
+      .regex(passwordRegex, {
+        message:
+          "Password must contain at least one uppercase letter, one lowercase letter, one special character, and one number.",
       }),
+    firstName: z.string({
+      required_error: "First Name is Required.",
+    }),
+    lastName: z.string({
+      required_error: "Last Name is Required.",
+    }),
+    phoneNumber: z.string({
+      required_error: "Phone Number is Required.",
+    }),
+    dateOfBirth: z.string({
+      required_error: "Date of Birth is Required.",
+    }),
+    location: z.string({
+      required_error: "Location is Required.",
+    }),
+    profilePhoto: z.string().optional(),
+    lastDonationDate: z.string().optional(),
     canDonateBlood: z.boolean({
       required_error: "This field is Required.",
     }),

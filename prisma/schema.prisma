@@ -8,31 +8,21 @@ datasource db {
 }
 
 model User {
-  id             String     @id @default(uuid())
-  userName       String     @unique
-  email          String     @unique
-  password       String
-  canDonateBlood Boolean    @default(false)
-  bloodType      BloodType
-  role           UserRole   @default(USER)
-  status         UserStatus @default(ACTIVE)
-
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  UserProfile UserProfile?
-}
-
-model UserProfile {
-  id               String    @id @default(uuid())
-  userId           String    @unique
-  user             User      @relation(fields: [userId], references: [id])
+  id               String     @id @default(uuid())
+  userName         String     @unique
+  email            String     @unique
+  password         String
+  firstName        String
+  lastName         String
+  phoneNumber      String
+  dateOfBirth      DateTime
+  location         String
   profilePhoto     String?
-  location         String?
-  firstName        String?
-  lastName         String?
-  phoneNumber      String?
-  dateOfBirth      DateTime?
-  lastDonationDate DateTime?
+  lastDonationDate String?
+  canDonateBlood   Boolean    @default(false)
+  bloodType        BloodType
+  role             UserRole   @default(USER)
+  status           UserStatus @default(ACTIVE)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

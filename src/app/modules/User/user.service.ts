@@ -10,6 +10,11 @@ const createUser = async (payload: any) => {
     userName: payload.userName,
     email: payload.email,
     password: hashedPassword,
+    firstName: payload.firstName,
+    lastName: payload.lastName,
+    phoneNumber: payload.phoneNumber,
+    dateOfBirth: payload.dateOfBirth,
+    location: payload.location,
     canDonateBlood: payload.canDonateBlood,
     bloodType: payload.bloodType,
   };
@@ -21,9 +26,10 @@ const createUser = async (payload: any) => {
   });
 
   if (isEmailExists) {
-    throw new ApiError(httpStatus.CONFLICT, "Email already exists !");
+    throw new ApiError(httpStatus.CONFLICT, "Email already exists!");
   }
 
+  // Check if username already exists
   const isUserNameExists = await prisma.user.findUnique({
     where: {
       userName: payload.userName,
@@ -31,7 +37,7 @@ const createUser = async (payload: any) => {
   });
 
   if (isUserNameExists) {
-    throw new ApiError(httpStatus.CONFLICT, "Username already exists !");
+    throw new ApiError(httpStatus.CONFLICT, "Username already exists!");
   }
 
   const result = await prisma.user.create({
@@ -41,7 +47,6 @@ const createUser = async (payload: any) => {
       userName: true,
       email: true,
       bloodType: true,
-      canDonateBlood: true,
     },
   });
 

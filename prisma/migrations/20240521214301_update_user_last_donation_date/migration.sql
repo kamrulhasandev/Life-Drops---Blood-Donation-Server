@@ -13,6 +13,13 @@ CREATE TABLE "User" (
     "userName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "phoneNumber" TEXT NOT NULL,
+    "dateOfBirth" TIMESTAMP(3) NOT NULL,
+    "location" TEXT NOT NULL,
+    "profilePhoto" TEXT,
+    "lastDonationDate" TEXT,
     "canDonateBlood" BOOLEAN NOT NULL DEFAULT false,
     "bloodType" "BloodType" NOT NULL,
     "role" "UserRole" NOT NULL DEFAULT 'USER',
@@ -23,31 +30,8 @@ CREATE TABLE "User" (
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "UserProfile" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "profilePhoto" TEXT,
-    "location" TEXT,
-    "firstName" TEXT,
-    "lastName" TEXT,
-    "phoneNumber" TEXT,
-    "dateOfBirth" TIMESTAMP(3),
-    "lastDonationDate" TIMESTAMP(3),
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "UserProfile_pkey" PRIMARY KEY ("id")
-);
-
 -- CreateIndex
 CREATE UNIQUE INDEX "User_userName_key" ON "User"("userName");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "UserProfile_userId_key" ON "UserProfile"("userId");
-
--- AddForeignKey
-ALTER TABLE "UserProfile" ADD CONSTRAINT "UserProfile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
