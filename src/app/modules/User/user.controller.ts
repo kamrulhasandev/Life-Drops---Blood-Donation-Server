@@ -28,11 +28,23 @@ const editProfile = catchAsync(
 );
 const changeUserStatus = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await UserServices.changeUserStatus(id);
+  const { status } = req.body;
+  const result = await UserServices.changeUserStatus(id, status);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "User Status updated successfully",
+    data: result,
+  });
+});
+const changeUerRole = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { role } = req.body;
+  const result = await UserServices.changeUserRole(id, role);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User Role updated successfully",
     data: result,
   });
 });
@@ -41,4 +53,5 @@ export const UserController = {
   createUser,
   editProfile,
   changeUserStatus,
+  changeUerRole,
 };

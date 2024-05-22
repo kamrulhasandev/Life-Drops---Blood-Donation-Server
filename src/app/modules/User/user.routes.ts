@@ -24,5 +24,10 @@ router.post(
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   UserController.changeUserStatus
 );
+router.post(
+  "/user-role/:id",
+  auth(UserRole.SUPER_ADMIN),
+  UserController.changeUerRole
+);
 
 export const UserRoutes = router;

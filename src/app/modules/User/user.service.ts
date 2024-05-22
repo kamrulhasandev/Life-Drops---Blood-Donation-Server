@@ -2,6 +2,7 @@ import * as bcrypt from "bcrypt";
 import prisma from "../../shared/prisma";
 import ApiError from "../../error/AppError";
 import httpStatus from "http-status";
+import { UserStatus } from "@prisma/client";
 
 const createUser = async (payload: any) => {
   const hashedPassword: string = await bcrypt.hash(payload.password, 12);
@@ -100,20 +101,46 @@ const editProfile = async (payload: any, user: any) => {
   return result;
 };
 
-const changeUserStatus = async (id: string) => {
+const changeUserStatus = async (id: string, status: UserStatus) => {
   const result = await prisma.user.update({
     where: {
       id: id,
     },
     data: {
-      status: "DEACTIVE",
+      status: status,
     },
   });
-  return result;
+  return { message: "User Status change successfully" };
+};
+
+enum UserRole {
+  USER = "USER",
+  ADMIN = "ADMIN",
+  SUPER_ADMIN = "SUPER_ADMIN",
+}
+
+const changeUserRole = async (id: string, role: UserRole) => {
+  const allowedRoles = [UserRole.USER, UserRole.ADMIN];
+
+  if (!allowedRoles.includes(role)) {
+    throw new Error("Invalid role. Only 'USER' and 'ADMIN' roles are allowed.");
+  }
+
+  const result = await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      role: role,
+    },
+  });
+
+  return { message: "User Role changed successfully", result };
 };
 
 export const UserServices = {
   createUser,
   editProfile,
   changeUserStatus,
+  changeUserRole,
 };
