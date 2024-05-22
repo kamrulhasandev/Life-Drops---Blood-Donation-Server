@@ -20,4 +20,10 @@ router.get(
   DonationController.getMyDonation
 );
 
+router.put(
+  "/donation-request/:requestId",
+  auth(UserRole.USER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DonationController.updateRequestStatus
+);
+
 export const DonationRoutes = router;

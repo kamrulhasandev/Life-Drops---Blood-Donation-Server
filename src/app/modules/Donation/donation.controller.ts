@@ -30,22 +30,23 @@ const getMyDonation = catchAsync(
   }
 );
 
-// const updateRequestStatus = catchAsync(async (req: Request, res: Response) => {
-//   const { requestId } = req.params;
+const updateRequestStatus = catchAsync(async (req: Request, res: Response) => {
+  const { requestId } = req.params;
 
-//   const result = await DonationService.updateRequestStatus(
-//     requestId,
-//     req.body.status
-//   );
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: "Donation request status successfully updated",
-//     data: result,
-//   });
-// });
+  const result = await DonationServices.updateRequestStatus(
+    requestId,
+    req.body.status
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Donation request status successfully updated",
+    data: result,
+  });
+});
 
 export const DonationController = {
   createBloodRequest,
   getMyDonation,
+  updateRequestStatus,
 };

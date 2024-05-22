@@ -91,26 +91,24 @@ const getMyDonation = async (user: any) => {
   return result;
 };
 
-// const updateRequestStatus = async (
-//   requestId: string,
-//   status:
-// ) => {
-//   await prisma.request.findFirstOrThrow({
-//     where: {
-//       id: requestId,
-//     },
-//   });
+const updateRequestStatus = async (requestId: string, status: any) => {
+  await prisma.bloodRequest.findFirstOrThrow({
+    where: {
+      id: requestId,
+    },
+  });
 
-//   const updateStatus = await prisma.request.update({
-//     where: {
-//       id: requestId,
-//     },
-//     data: { requestStatus: status },
-//   });
-//   return updateStatus;
-// };
+  const updateStatus = await prisma.bloodRequest.update({
+    where: {
+      id: requestId,
+    },
+    data: { status: status },
+  });
+  return updateStatus;
+};
 
 export const DonationServices = {
   createBloodRequest,
   getMyDonation,
+  updateRequestStatus,
 };
