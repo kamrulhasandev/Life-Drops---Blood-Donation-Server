@@ -100,7 +100,20 @@ const editProfile = async (payload: any, user: any) => {
   return result;
 };
 
+const changeUserStatus = async (id: string) => {
+  const result = await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      status: "DEACTIVE",
+    },
+  });
+  return result;
+};
+
 export const UserServices = {
   createUser,
   editProfile,
+  changeUserStatus,
 };

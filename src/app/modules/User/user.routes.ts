@@ -19,4 +19,10 @@ router.put(
   UserController.editProfile
 );
 
+router.post(
+  "/user-status/:id",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  UserController.changeUserStatus
+);
+
 export const UserRoutes = router;
