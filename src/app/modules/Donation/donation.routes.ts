@@ -14,4 +14,10 @@ router.post(
   DonationController.createBloodRequest
 );
 
+router.get(
+  "/donation-request",
+  auth(UserRole.USER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DonationController.getMyDonation
+);
+
 export const DonationRoutes = router;

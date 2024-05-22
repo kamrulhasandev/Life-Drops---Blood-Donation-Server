@@ -41,6 +41,76 @@ const createBloodRequest = async (payload: any, user: any) => {
   return result;
 };
 
+const getMyDonation = async (user: any) => {
+  const result = await prisma.bloodRequest.findMany({
+    where: {
+      requesterId: user.id,
+    },
+    include: {
+      donor: {
+        select: {
+          id: true,
+          userName: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          phoneNumber: true,
+          dateOfBirth: true,
+          location: true,
+          profilePhoto: true,
+          canDonateBlood: true,
+          lastDonationDate: true,
+          bloodType: true,
+          status: true,
+        },
+      },
+      requester: {
+        select: {
+          id: true,
+          userName: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          phoneNumber: true,
+          dateOfBirth: true,
+          location: true,
+          profilePhoto: true,
+          canDonateBlood: true,
+          lastDonationDate: true,
+          bloodType: true,
+          status: true,
+        },
+      },
+    },
+  });
+
+  if (result.length === 0) {
+    return "Currently no request found";
+  }
+
+  return result;
+};
+
+// const updateRequestStatus = async (
+//   requestId: string,
+//   status:
+// ) => {
+//   await prisma.request.findFirstOrThrow({
+//     where: {
+//       id: requestId,
+//     },
+//   });
+
+//   const updateStatus = await prisma.request.update({
+//     where: {
+//       id: requestId,
+//     },
+//     data: { requestStatus: status },
+//   });
+//   return updateStatus;
+// };
+
 export const DonationServices = {
   createBloodRequest,
+  getMyDonation,
 };
