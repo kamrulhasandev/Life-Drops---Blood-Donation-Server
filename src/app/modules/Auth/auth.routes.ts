@@ -5,6 +5,12 @@ import { UserRole } from "@prisma/client";
 
 const router = express.Router();
 
+router.get(
+  "/my-profile",
+  auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.USER),
+  AuthController.getMyProfile
+);
+
 router.post("/login", AuthController.loginUser);
 router.post(
   "/change-password",

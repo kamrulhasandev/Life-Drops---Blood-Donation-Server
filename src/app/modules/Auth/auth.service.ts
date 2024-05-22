@@ -5,7 +5,6 @@ import { AuthUtils } from "./auth.utils";
 import { jwtHelpers } from "../../helpers/jwtHelpers";
 import config from "../../config";
 import { JwtPayload, Secret } from "jsonwebtoken";
-import * as bcrypt from "bcrypt";
 import { hashedPassword } from "../../helpers/hashedPassword";
 
 const loginUser = async (payload: {
@@ -112,7 +111,34 @@ const changePassword = async (
   });
 };
 
+const getMyProfile = async (user: any) => {
+  console.log(user);
+  const result = await prisma.user.findUniqueOrThrow({
+    where: {
+      id: user.id,
+    },
+    select: {
+      id: true,
+      email: true,
+      bloodType: true,
+      location: true,
+      canDonateBlood: true,
+      dateOfBirth: true,
+      firstName: true,
+      lastName: true,
+      lastDonationDate: true,
+      phoneNumber: true,
+      profilePhoto: true,
+      status: true,
+      requester: true,
+    },
+  });
+
+  return result;
+};
+
 export const AuthServices = {
   loginUser,
   changePassword,
+  getMyProfile
 };

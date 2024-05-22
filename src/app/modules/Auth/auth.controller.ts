@@ -27,8 +27,21 @@ const changePassword = catchAsync(
     });
   }
 );
+const getMyProfile = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const user = req.user;
+    const result = await AuthServices.getMyProfile(user);
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "profile retrieved successfully !",
+      data: result,
+    });
+  }
+);
 
 export const AuthController = {
   loginUser,
   changePassword,
+  getMyProfile
 };
