@@ -14,6 +14,20 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const editProfile = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const user = req.user;
+    const result = await UserServices.editProfile(req.body, user);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "User profile updated successfully",
+      data: result,
+    });
+  }
+);
+
 export const UserController = {
   createUser,
+  editProfile,
 };

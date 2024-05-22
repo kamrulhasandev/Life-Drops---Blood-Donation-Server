@@ -63,6 +63,22 @@ const createUserValidation = z.object({
   }),
 });
 
+const editProfileValidation = z.object({
+  body: z.object({
+    userName: z.string().optional(),
+    email: z.string().email().optional(),
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    phoneNumber: z.string().optional(),
+    dateOfBirth: z.string().optional(),
+    location: z.string().optional(),
+    profilePhoto: z.string().optional(),
+    lastDonationDate: z.string().optional(),
+    canDonateBlood: z.boolean().optional(),
+  }),
+});
+
 export const userValidation = {
   createUserValidation,
+  editProfileValidation,
 };
