@@ -1,14 +1,14 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "BloodType" AS ENUM ('A_POS', 'A_NEG', 'B_POS', 'B_NEG', 'AB_POS', 'AB_NEG', 'O_POS', 'O_NEG');
 
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
+-- CreateEnum
+CREATE TYPE "UserStatus" AS ENUM ('ACTIVE', 'DEACTIVE');
 
-*/
+-- CreateEnum
+CREATE TYPE "UserRole" AS ENUM ('USER', 'ADMIN', 'SUPER_ADMIN');
+
 -- CreateEnum
 CREATE TYPE "RequestStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
-
--- DropTable
-DROP TABLE "User";
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -19,7 +19,7 @@ CREATE TABLE "users" (
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
-    "dateOfBirth" TIMESTAMP(3) NOT NULL,
+    "dateOfBirth" TIMESTAMP(3),
     "location" TEXT NOT NULL,
     "profilePhoto" TEXT,
     "lastDonationDate" TIMESTAMP(3),
@@ -40,13 +40,16 @@ CREATE TABLE "bloodRequests" (
     "requesterId" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
-    "dateOfBirth" TIMESTAMP(3) NOT NULL,
     "location" TEXT NOT NULL,
+    "donationDate" TEXT NOT NULL,
     "profilePhoto" TEXT,
     "bloodType" "BloodType" NOT NULL,
-    "status" "RequestStatus" NOT NULL DEFAULT 'PENDING',
     "hospitalName" TEXT NOT NULL,
+    "reason" TEXT NOT NULL,
+    "description" TEXT,
+    "status" "RequestStatus" NOT NULL DEFAULT 'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

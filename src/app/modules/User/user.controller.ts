@@ -49,9 +49,32 @@ const changeUerRole = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const allDonor = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserServices.allDonor();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "All Donor Retrieve successfully",
+    data: result,
+  });
+});
+
+const getSingleDonor = catchAsync(async (req: Request, res: Response) => {
+  const { donorId } = req.params;
+  const result = await UserServices.getSingleDonor(donorId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "All Donor Retrieve successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   createUser,
   editProfile,
   changeUserStatus,
   changeUerRole,
+  allDonor,
+  getSingleDonor,
 };

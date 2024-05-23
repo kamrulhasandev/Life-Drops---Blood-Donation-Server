@@ -11,46 +11,53 @@ const BloodTypeEnum = z.enum([
   "O_NEG",
 ]);
 
+const RequestStatusEnum = z.enum([
+  "PENDING",
+  "APPROVED",
+  "REJECTED",
+]);
+
 const createBloodRequestValidation = z.object({
   body: z.object({
     donorId: z.string({
-      required_error: "Donor id is Required",
+      required_error: "Donor id is required",
     }),
     firstName: z.string({
-      required_error: "firstName  is Required",
+      required_error: "First name is required",
     }),
     lastName: z.string({
-      required_error: "lastName  is Required",
+      required_error: "Last name is required",
     }),
     email: z
       .string({
-        required_error: "email  is Required",
+        required_error: "Email is required",
       })
       .email({
         message: "Invalid email format",
       }),
     phoneNumber: z
       .string({
-        required_error: "phoneNumber  is Required",
+        required_error: "Phone number is required",
       })
       .min(11, {
         message: "Phone number must be at least 11 digits",
       }),
     location: z.string({
-      required_error: "location  is Required",
+      required_error: "Location is required",
     }),
     donationDate: z.string({
-      required_error: "donationDate  is Required",
-    }),
-    donationTime: z.string({
-      required_error: "donationTime  is Required",
+      required_error: "Donation date is required",
     }),
     profilePhoto: z.string().optional(),
     bloodType: BloodTypeEnum,
-
     hospitalName: z.string({
-      required_error: "donationTime  is Required",
+      required_error: "Hospital name is required",
     }),
+    reason: z.string({
+      required_error: "Reason is required",
+    }),
+    description: z.string().optional(),
+    status: RequestStatusEnum.default("PENDING"),
   }),
 });
 

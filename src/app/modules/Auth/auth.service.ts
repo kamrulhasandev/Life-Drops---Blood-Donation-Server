@@ -137,8 +137,46 @@ const getMyProfile = async (user: any) => {
   return result;
 };
 
+const refreshToken = async (token: string) => {
+  let verifiedToken = null;
+  try {
+    verifiedToken = jwtHelpers.verifyToken(
+      token,
+      config.jwt.refresh_secret as Secret
+    );
+  } catch (err) {
+    throw new ApiError(httpStatus.FORBIDDEN, "Invalid Refresh Token");
+  }
+
+  const { userId } = verifiedToken;
+
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      id: userId,
+      status: "ACTIVE",
+    },
+  });
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
+  }
+
+  const newAccessToken = jwtHelpers.createToken(
+    {
+      userId: isUserExist.id,
+      role: isUserExist.role,
+    },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string
+  );
+
+  return {
+    accessToken: newAccessToken,
+  };
+};
+
 export const AuthServices = {
   loginUser,
   changePassword,
-  getMyProfile
+  getMyProfile,
+  refreshToken
 };

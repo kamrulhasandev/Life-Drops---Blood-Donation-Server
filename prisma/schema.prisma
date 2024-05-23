@@ -15,7 +15,7 @@ model User {
   firstName        String
   lastName         String
   phoneNumber      String
-  dateOfBirth      DateTime
+  dateOfBirth      DateTime?
   location         String
   profilePhoto     String?
   lastDonationDate DateTime?
@@ -46,11 +46,12 @@ model BloodRequest {
   phoneNumber  String
   location     String
   donationDate String
-  donationTime String
   profilePhoto String?
   bloodType    BloodType
-  status       RequestStatus @default(PENDING)
   hospitalName String
+  reason       String
+  description  String?
+  status       RequestStatus @default(PENDING)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 

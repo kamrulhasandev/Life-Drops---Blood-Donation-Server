@@ -7,6 +7,10 @@ import auth from "../../middlewares/auth";
 
 const router = express.Router();
 
+router.get("/all-donors", UserController.allDonor);
+
+router.get("/all-donors/:donorId", UserController.getSingleDonor);
+
 router.post(
   "/register",
   validateRequest(userValidation.createUserValidation),

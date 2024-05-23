@@ -14,7 +14,6 @@ const createUser = async (payload: any) => {
     firstName: payload.firstName,
     lastName: payload.lastName,
     phoneNumber: payload.phoneNumber,
-    dateOfBirth: payload.dateOfBirth,
     location: payload.location,
     canDonateBlood: payload.canDonateBlood,
     bloodType: payload.bloodType,
@@ -138,9 +137,53 @@ const changeUserRole = async (id: string, role: UserRole) => {
   return { message: "User Role changed successfully", result };
 };
 
+const allDonor = async () => {
+  const result = await prisma.user.findMany({
+    where: {
+      status: "ACTIVE",
+    },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      location: true,
+      profilePhoto: true,
+      canDonateBlood: true,
+      bloodType: true,
+    },
+  });
+
+  return result;
+};
+
+const getSingleDonor = async (donorId: string) => {
+  const result = await prisma.user.findUniqueOrThrow({
+    where: {
+      id: donorId,
+    },
+    select: {
+      id: true,
+      bloodType: true,
+      canDonateBlood: true,
+      dateOfBirth: true,
+      email: true,
+      firstName: true,
+      lastName: true,
+      location: true,
+      phoneNumber: true,
+      profilePhoto: true,
+      lastDonationDate: true,
+      userName: true,
+    },
+  });
+  return result;
+};
+
 export const UserServices = {
   createUser,
   editProfile,
   changeUserStatus,
   changeUserRole,
+  allDonor,
+  getSingleDonor,
 };

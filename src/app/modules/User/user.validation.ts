@@ -34,9 +34,7 @@ const createUserValidation = z.object({
     phoneNumber: z.string({
       required_error: "Phone Number is Required.",
     }),
-    dateOfBirth: z.string({
-      required_error: "Date of Birth is Required.",
-    }),
+    dateOfBirth: z.string().optional(),
     location: z.string({
       required_error: "Location is Required.",
     }),
