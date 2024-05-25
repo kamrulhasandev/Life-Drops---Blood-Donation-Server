@@ -2,7 +2,6 @@ import * as bcrypt from "bcrypt";
 import prisma from "../../shared/prisma";
 import ApiError from "../../error/AppError";
 import httpStatus from "http-status";
-import { UserStatus } from "@prisma/client";
 
 const createUser = async (payload: any) => {
   const hashedPassword: string = await bcrypt.hash(payload.password, 12);
@@ -100,48 +99,29 @@ const editProfile = async (payload: any, user: any) => {
   return result;
 };
 
-const changeUserStatus = async (id: string, status: UserStatus) => {
+const changeUserStatus = async (id: string, status: any) => {
   const result = await prisma.user.update({
     where: {
       id: id,
     },
-    data: {
-      status: status,
-    },
+    data: { status },
   });
-  return { message: "User Status change successfully" };
+  return result;
 };
 
-enum UserRole {
-  USER = "USER",
-  ADMIN = "ADMIN",
-  SUPER_ADMIN = "SUPER_ADMIN",
-}
-
-const changeUserRole = async (id: string, role: UserRole) => {
-  const allowedRoles = [UserRole.USER, UserRole.ADMIN];
-
-  if (!allowedRoles.includes(role)) {
-    throw new Error("Invalid role. Only 'USER' and 'ADMIN' roles are allowed.");
-  }
-
+const changeUserRole = async (id: string, role: any) => {
   const result = await prisma.user.update({
     where: {
       id: id,
     },
-    data: {
-      role: role,
-    },
+    data: { role },
   });
 
-  return { message: "User Role changed successfully", result };
+  return result;
 };
 
 const allDonor = async () => {
   const result = await prisma.user.findMany({
-    where: {
-      status: "ACTIVE",
-    },
     select: {
       id: true,
       firstName: true,
@@ -150,6 +130,9 @@ const allDonor = async () => {
       profilePhoto: true,
       canDonateBlood: true,
       bloodType: true,
+      status: true,
+      role: true,
+      userName: true,
     },
   });
 

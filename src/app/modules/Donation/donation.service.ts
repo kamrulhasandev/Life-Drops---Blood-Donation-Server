@@ -44,49 +44,25 @@ const createBloodRequest = async (payload: any, user: any) => {
 const getMyDonation = async (user: any) => {
   const result = await prisma.bloodRequest.findMany({
     where: {
-      requesterId: user.id,
+      donorId: user.id,
     },
-    include: {
-      donor: {
-        select: {
-          id: true,
-          userName: true,
-          email: true,
-          firstName: true,
-          lastName: true,
-          phoneNumber: true,
-          dateOfBirth: true,
-          location: true,
-          profilePhoto: true,
-          canDonateBlood: true,
-          lastDonationDate: true,
-          bloodType: true,
-          status: true,
-        },
-      },
-      requester: {
-        select: {
-          id: true,
-          userName: true,
-          email: true,
-          firstName: true,
-          lastName: true,
-          phoneNumber: true,
-          dateOfBirth: true,
-          location: true,
-          profilePhoto: true,
-          canDonateBlood: true,
-          lastDonationDate: true,
-          bloodType: true,
-          status: true,
-        },
-      },
+    select: {
+      id: true,
+      status: true,
+      hospitalName: true,
+      description: true,
+      email: true,
+      location: true,
+      phoneNumber: true,
+      reason: true,
+      profilePhoto: true,
+      bloodType: true,
+      donationDate: true,
+      firstName: true,
+      lastName: true,
+      
     },
   });
-
-  if (result.length === 0) {
-    return "Currently no request found";
-  }
 
   return result;
 };
@@ -102,13 +78,38 @@ const updateRequestStatus = async (requestId: string, status: any) => {
     where: {
       id: requestId,
     },
-    data: { status: status },
+    data: { status },
   });
   return updateStatus;
+};
+
+const getSentDonationRequest = async (user: any) => {
+  const result = await prisma.bloodRequest.findMany({
+    where: {
+      requesterId: user.id,
+    },
+    select: {
+      id: true,
+      status: true,
+      donor: {
+        select: {
+          firstName: true,
+          lastName: true,
+          bloodType: true,
+          email: true,
+          phoneNumber: true,
+          location: true,
+          profilePhoto: true,
+        },
+      },
+    },
+  });
+  return result;
 };
 
 export const DonationServices = {
   createBloodRequest,
   getMyDonation,
   updateRequestStatus,
+  getSentDonationRequest,
 };

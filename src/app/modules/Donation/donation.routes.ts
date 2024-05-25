@@ -7,6 +7,19 @@ import { BloodRequestValidation } from "./donation.validation";
 
 const router = express.Router();
 
+
+router.get(
+  "/received-donation-request",
+  auth(UserRole.USER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DonationController.getMyDonation
+);
+
+router.get(
+  "/sent-donation-request",
+  auth(UserRole.USER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DonationController.getSentDonationRequest
+);
+
 router.post(
   "/donation-request",
   validateRequest(BloodRequestValidation.createBloodRequestValidation),
@@ -14,11 +27,7 @@ router.post(
   DonationController.createBloodRequest
 );
 
-router.get(
-  "/donation-request",
-  auth(UserRole.USER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
-  DonationController.getMyDonation
-);
+
 
 router.put(
   "/donation-request/:requestId",
