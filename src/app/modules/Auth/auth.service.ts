@@ -130,7 +130,7 @@ const getMyProfile = async (user: any) => {
       phoneNumber: true,
       profilePhoto: true,
       status: true,
-      requester: true,
+      userName: true,
     },
   });
 

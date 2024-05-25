@@ -29,6 +29,7 @@ model User {
 
   donor     BloodRequest[] @relation("donor")
   requester BloodRequest[] @relation("requester")
+  blogs     Blogs[]
 
   @@map("users")
 }
@@ -56,6 +57,21 @@ model BloodRequest {
   updatedAt    DateTime      @updatedAt
 
   @@map("bloodRequests")
+}
+
+model Blogs {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  image       String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blogs")
 }
 
 enum BloodType {

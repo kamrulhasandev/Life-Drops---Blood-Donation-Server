@@ -12,6 +12,7 @@ router.get(
 );
 
 router.post("/login", AuthController.loginUser);
+
 router.post(
   "/change-password",
   auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.USER),
