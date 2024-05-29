@@ -5,6 +5,14 @@ import ApiError from "../error/AppError";
 import { jwtHelpers } from "../helpers/jwtHelpers";
 import config from "../config";
 
+declare global {
+  namespace Express {
+    interface Request {
+      user?: any; 
+    }
+  }
+}
+
 const auth =
   (...requiredRoles: string[]) =>
   async (req: Request, res: Response, next: NextFunction) => {
