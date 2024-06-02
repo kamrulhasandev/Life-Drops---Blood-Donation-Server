@@ -60,7 +60,6 @@ const getMyDonation = async (user: any) => {
       donationDate: true,
       firstName: true,
       lastName: true,
-      
     },
   });
 
@@ -107,9 +106,34 @@ const getSentDonationRequest = async (user: any) => {
   return result;
 };
 
+const getAllDonation = async () => {
+  const result = await prisma.bloodRequest.findMany({
+    select: {
+      id: true,
+      status: true,
+      bloodType: true,
+      donationDate: true,
+      donor: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
+      requester: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
+    },
+  });
+  return result
+};
+
 export const DonationServices = {
   createBloodRequest,
   getMyDonation,
   updateRequestStatus,
   getSentDonationRequest,
+  getAllDonation,
 };
